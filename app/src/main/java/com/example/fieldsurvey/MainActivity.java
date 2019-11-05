@@ -58,15 +58,15 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-/*
-        register.setOnClickListener(new View.OnClickListener() {
+
+    /*    register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(getApplicationContext(), Register.class);
                 startActivity(intent);
             }
-        });*/
-
+        });
+*/
     @Override
     public void onStart() {
         super.onStart();
@@ -118,8 +118,14 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
+    public void goRegister(View view) {
+        intent = new Intent(getApplicationContext(), Register.class);
+        startActivity(intent);
+    }
+
 
 }
+
 
 
 

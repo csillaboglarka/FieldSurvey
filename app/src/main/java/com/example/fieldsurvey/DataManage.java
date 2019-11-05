@@ -2,6 +2,7 @@ package com.example.fieldsurvey;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,7 @@ public class DataManage extends AppCompatActivity {
     public void signOut(View view) {
         mAuth.signOut();
         Log.d(TAG, "onAuthStateChanged:signed_out");
-
+       Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }
