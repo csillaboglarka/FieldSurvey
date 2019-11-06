@@ -28,4 +28,12 @@ public class Profile extends AppCompatActivity {
        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
+
+    public void addPlant(View view) {
+        setContentView(R.layout.plantform);
+    }
+
+    public void addFurniture(View view) {
+        setContentView(R.layout.furnitureform);
+    }
 }

@@ -11,4 +11,13 @@
     <string name="registerpass">Password</string>
     <string name="registerbutton">REGISTER</string>
     <string name="signout">Sign Out</string>
+    <string name="planttitle">Plant</string>
+    <string name="txplantspecies">Plant species</string>
+    <string name="txhungarianname">Hungarian name</string>
+    <string name="txlatinname">Latin name</string>
+    <string name="btnAddPlant">ADD PLANT</string>
+    <string name="txFurnitureTitle">Furniture</string>
+    <string name="txfurnituretype">Type</string>
+    <string name="txfurniturematerial">Material</string>
+    <string name="btnAddFurniture">ADD FURNITURE</string>
 </resources>

@@ -10,8 +10,32 @@
         android:id="@+id/signOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:onClick="signOut"
         android:text="@string/signout"
-        tools:layout_editor_absoluteX="311dp"
-        tools:layout_editor_absoluteY="3dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnaddplant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="30dp"
+        android:onClick="addPlant"
+        android:text="@string/btnAddPlant"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signOut" />
+
+    <Button
+        android:id="@+id/btnaddfurniture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:onClick="addFurniture"
+        android:text="@string/btnAddFurniture"
+        app:layout_constraintStart_toEndOf="@+id/btnaddplant"
+        app:layout_constraintTop_toBottomOf="@+id/signOut" />
 </androidx.constraintlayout.widget.ConstraintLayout>

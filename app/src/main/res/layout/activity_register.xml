@@ -62,7 +62,6 @@
         android:layout_width="94dp"
         android:layout_height="49dp"
         android:layout_marginTop="58dp"
-        android:onClick="createAccount"
         android:text="@string/registerbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
