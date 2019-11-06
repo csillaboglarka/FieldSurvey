@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "655649028469",
+    "firebase_url": "https://fieldsurvey-87d04.firebaseio.com",
+    "project_id": "fieldsurvey-87d04",
+    "storage_bucket": "fieldsurvey-87d04.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:655649028469:android:dd0b518755f363cb4ebb3c",
+        "android_client_info": {
+          "package_name": "com.example.fieldsurvey"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "655649028469-ij5r5vkererktjud9jehmaka6s6rlr2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC98oUfLlntO7t1KX4qhV6WH8k8sLS1-H0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "655649028469-ij5r5vkererktjud9jehmaka6s6rlr2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
