@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class DataManage extends AppCompatActivity {
+public class Profile extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "EmailPassword";

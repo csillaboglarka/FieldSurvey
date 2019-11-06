@@ -26,7 +26,6 @@ import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity {
 
-
     Button login, register;
     EditText uEmail, uPass;
     Intent intent;
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void signIn(View view) {  // Itt ellenorzi hogy megvan a user a firebase-ben es ha megvan csak akkor megy a kovetkezo oldalra
-        intent = new Intent(MainActivity.this, DataManage.class);
+        intent = new Intent(MainActivity.this, Profile.class);
         String email = uEmail.getText().toString();
         String password = uPass.getText().toString();
         if (!validateForm()) {  // megnezi hogy kivan-e toltve minden sor

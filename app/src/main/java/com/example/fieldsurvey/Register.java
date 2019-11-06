@@ -69,7 +69,7 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this, "Failed", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(Register.this, "Succesful", Toast.LENGTH_SHORT).show();
-                    intent = new Intent(getApplicationContext(),DataManage.class);
+                    intent = new Intent(getApplicationContext(), Profile.class);
                     startActivity(intent);
                 }
                 //hideProgressDialog();
