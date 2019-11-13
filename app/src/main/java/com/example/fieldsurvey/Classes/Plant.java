@@ -6,7 +6,11 @@ public class Plant {
     private String hungarianName;
     private String latinName;
 
-    public Plant(){
+    public Plant(int plantId,String plantSpecies, String hungarianName, String latinName){
+        this.plantId=plantId;
+        this.plantSpecies=plantSpecies;
+        this.hungarianName=hungarianName;
+        this.latinName=latinName;
     }
 
     public int getPlantId() {

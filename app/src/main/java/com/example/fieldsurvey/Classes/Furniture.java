@@ -5,7 +5,10 @@ public class Furniture {
     private String type;
     private String material;
 
-    public Furniture() {
+    public Furniture(int furnitureId,String type, String  material) {
+        this.furnitureId=furnitureId;
+        this.type=type;
+        this.material=material;
     }
 
     public int getFurnitureId() {
