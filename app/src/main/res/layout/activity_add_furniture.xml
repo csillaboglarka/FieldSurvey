@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    tools:context=".AddFurnitureActivity">
     <TextView
         android:id="@+id/tvFurnitureTitle"
         android:layout_width="wrap_content"
@@ -28,12 +27,12 @@
         android:layout_marginTop="100dp"
         android:layout_marginBottom="30dp">
 
-    <TextView
-        android:id="@+id/tvFurnitureType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/txfurnituretype"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/tvFurnitureType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txfurnituretype"
+            android:textSize="20sp" />
 
         <Spinner
             android:id="@+id/spinnerfurntype"
@@ -42,13 +41,13 @@
             android:layout_below="@+id/tvFurnitureType"
             android:hint="Type" />
 
-    <TextView
-        android:id="@+id/tvFurnMaterial"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/txfurniturematerial"
-        android:layout_below="@+id/spinnerfurntype"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/tvFurnMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txfurniturematerial"
+            android:layout_below="@+id/spinnerfurntype"
+            android:textSize="20sp" />
 
         <Spinner
             android:id="@+id/spinnerfurnmaterial"
@@ -57,14 +56,15 @@
             android:layout_below="@+id/tvFurnMaterial"
             android:hint="Material" />
 
-    <Button
-        android:id="@+id/addFurniture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/spinnerfurnmaterial"
-        android:text="@string/btnAddFurniture" />
+        <Button
+            android:id="@+id/addFurniture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinnerfurnmaterial"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:onClick="AddtoDataBase"
+            android:text="@string/btnAddFurniture" />
 
     </RelativeLayout>
 

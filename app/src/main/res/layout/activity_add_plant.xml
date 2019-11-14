@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
+    tools:context=".AddPlantActivity">
     <TextView
         android:id="@+id/plantTitle"
         android:layout_width="wrap_content"
@@ -42,45 +41,47 @@
             android:layout_below="@+id/tvPlantSpecies"
             android:hint="Species" />
 
-    <TextView
-        android:id="@+id/tvHunName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/txhungarianname"
-        android:textSize="20sp"
-        android:layout_below="@+id/spinnerspecies"/>
+        <TextView
+            android:id="@+id/tvHunName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/txhungarianname"
+            android:textSize="20sp"
+            android:layout_below="@+id/spinnerspecies"/>
 
-    <EditText
-        android:id="@+id/etHunName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvHunName"
-        android:ems="10"/>
+        <EditText
+            android:id="@+id/etHunName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvHunName"
+            android:ems="10"/>
 
-    <TextView
-        android:id="@+id/tvLatinName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_below="@+id/etHunName"
-        android:text="@string/txlatinname"/>
+        <TextView
+            android:id="@+id/tvLatinName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_below="@+id/etHunName"
+            android:text="@string/txlatinname"/>
 
-    <EditText
-        android:id="@+id/etLatinName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvLatinName"
-        android:ems="10" />
+        <EditText
+            android:id="@+id/etLatinName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvLatinName"
+            android:ems="10" />
 
-    <Button
-        android:id="@+id/addPlant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/etLatinName"
-        android:text="@string/btnAddPlant"/>
+        <Button
+            android:id="@+id/addPlant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etLatinName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:onClick="AddTODataBase"
+            android:text="@string/btnAddPlant" />
 
     </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

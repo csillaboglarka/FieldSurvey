@@ -1,25 +1,25 @@
 package com.example.fieldsurvey.Classes;
 
 public class Plant {
-    private int plantId;
+    //private int plantId;
     private String plantSpecies;
     private String hungarianName;
     private String latinName;
 
-    public Plant(int plantId,String plantSpecies, String hungarianName, String latinName){
-        this.plantId=plantId;
+    public Plant(String plantSpecies, String hungarianName, String latinName){
+        //this.plantId=plantId;
         this.plantSpecies=plantSpecies;
         this.hungarianName=hungarianName;
         this.latinName=latinName;
     }
 
-    public int getPlantId() {
-        return plantId;
-    }
-
-    public void setPlantId(int plantId) {
-        this.plantId = plantId;
-    }
+//    public int getPlantId() {
+//        return plantId;
+//    }
+//
+//    public void setPlantId(int plantId) {
+//        this.plantId = plantId;
+//    }
 
     public String getPlantSpecies() {
         return plantSpecies;

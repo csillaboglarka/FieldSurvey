@@ -20,4 +20,22 @@
     <string name="txfurnituretype">Type</string>
     <string name="txfurniturematerial">Material</string>
     <string name="btnAddFurniture">ADD FURNITURE</string>
+    <string-array name="Species">
+        <item>Informatics</item>
+        <item>Software Enginieer</item>
+        <item>Law</item>
+        <item>Medicine</item>
+    </string-array>
+    <string-array name="Type">
+        <item>Informatics</item>
+        <item>Software Enginieer</item>
+        <item>Law</item>
+        <item>Medicine</item>
+    </string-array>
+    <string-array name="Material">
+        <item>Informatics</item>
+        <item>Software Enginieer</item>
+        <item>Law</item>
+        <item>Medicine</item>
+    </string-array>
 </resources>

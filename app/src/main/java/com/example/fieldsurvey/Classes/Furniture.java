@@ -1,24 +1,24 @@
 package com.example.fieldsurvey.Classes;
 
 public class Furniture {
-    private int furnitureId;
+   // private int furnitureId;
     private String type;
     private String material;
 
-    public Furniture(int furnitureId,String type, String  material) {
-        this.furnitureId=furnitureId;
+    public Furniture(String type, String  material) {
+       // this.furnitureId=furnitureId;
         this.type=type;
         this.material=material;
     }
 
-    public int getFurnitureId() {
+  /*  public int getFurnitureId() {
         return furnitureId;
     }
 
     public void setFurnitureId(int furnitureId) {
         this.furnitureId = furnitureId;
     }
-
+*/
     public String getType() {
         return type;
     }
