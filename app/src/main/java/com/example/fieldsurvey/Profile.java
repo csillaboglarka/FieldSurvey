@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.fieldsurvey.Classes.Project;
 import com.example.fieldsurvey.DataBase.FirebaseDataHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -54,8 +55,10 @@ public class Profile extends AppCompatActivity {
             addSessionNameToast.show();
             return;
         }
+        String currentUser=FirebaseDataHelper.Instance.getCurentUser();
+        Project project=new Project(projectName,currentUser);
 
-        String sessionKey = FirebaseDataHelper.Instance.CreateNewProject(projectName);
+        String sessionKey = FirebaseDataHelper.Instance.CreateNewProject(project);
         if (sessionKey == "Invalid") {
             Toast failedToCreateSession = Toast.makeText(getApplicationContext(), "Failed to create session", Toast.LENGTH_SHORT);
             failedToCreateSession.show();
