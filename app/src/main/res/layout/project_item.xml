@@ -1,15 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="4dp">
 
-
-    <TextView
-        android:id="@+id/project_name"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:text="TextView"
-        android:textSize="20dp" />
+        android:layout_height="match_parent"
+        android:layout_margin="7dp">
 
-</LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical"
+            android:padding="7dp">
+
+            <TextView
+                android:id="@+id/project_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Test test test"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

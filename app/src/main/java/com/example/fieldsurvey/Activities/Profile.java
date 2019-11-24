@@ -1,8 +1,7 @@
-package com.example.fieldsurvey;
+package com.example.fieldsurvey.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,13 +9,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.fieldsurvey.Classes.MyAdapter;
+import com.example.fieldsurvey.Adapters.MyAdapter;
 import com.example.fieldsurvey.Classes.Project;
 import com.example.fieldsurvey.DataBase.FirebaseDataHelper;
+import com.example.fieldsurvey.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -27,26 +33,61 @@ public class Profile extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<Project> projectlist;
-    MyAdapter adapter;
+    MyAdapter adapter,projectAdapter;
+    static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    static DatabaseReference surveyReference = database.getReference().child("Survey");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_manage);
         mAuth = FirebaseAuth.getInstance();
+        projectlist = new ArrayList<>();
+        final String currentUser=FirebaseDataHelper.Instance.getCurentUser();
+        surveyReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    String txt = item.child("userId").getValue().toString();
+                    //itt az volt a gond hogy nem csak projektek voltak a databesben ezert itt errort adott a txt-nel
+                    Log.i("fbdb",txt);
+                    if (txt.equals(currentUser)) {
+                        String q = item.child("projectName").getValue().toString();
+                        Project newProject = new Project(q);
+                        projectlist.add(newProject);
 
-        recyclerView=findViewById(R.id.recyclerview_projects);
-        recyclerView.setHasFixedSize(true);
-        layoutManager=new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
-        //recyclerView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
+                    }
 
-        //FirebaseDataHelper.Instance.GetProjects(FirebaseDataHelper.Instance.getCurentUser());
+                }
 
-        adapter=new MyAdapter(projectlist);
+                projectAdapter = new MyAdapter(projectlist);
+                recyclerView = findViewById(R.id.recyclerview_projects);
+                layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(projectAdapter);
+                recyclerView.setHasFixedSize(true);
 
-        recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+//        recyclerView=findViewById(R.id.recyclerview_projects);
+//        recyclerView.setHasFixedSize(true);
+//        layoutManager=new LinearLayoutManager(this);
+//        recyclerView.setLayoutManager(layoutManager);
+//        //recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        //recyclerView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
+//
+//        //FirebaseDataHelper.Instance.GetProjects(FirebaseDataHelper.Instance.getCurentUser());
+//
+//        adapter=new MyAdapter(projectlist);
+//
+//        recyclerView.setAdapter(adapter);
 
         /*adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override

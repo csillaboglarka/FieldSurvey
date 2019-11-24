@@ -1,4 +1,4 @@
-package com.example.fieldsurvey;
+package com.example.fieldsurvey.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.fieldsurvey.DataBase.FirebaseDataHelper;
+import com.example.fieldsurvey.R;
 
 public class AddPlantActivity extends AppCompatActivity {
     Spinner spinnerSpecies;

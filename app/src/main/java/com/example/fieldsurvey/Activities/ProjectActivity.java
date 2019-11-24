@@ -1,8 +1,10 @@
-package com.example.fieldsurvey;
+package com.example.fieldsurvey.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.fieldsurvey.R;
 
 public class ProjectActivity extends AppCompatActivity {
 

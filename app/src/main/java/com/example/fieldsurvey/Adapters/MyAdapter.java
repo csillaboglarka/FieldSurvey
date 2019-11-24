@@ -1,4 +1,4 @@
-package com.example.fieldsurvey.Classes;
+package com.example.fieldsurvey.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fieldsurvey.Classes.Project;
 import com.example.fieldsurvey.R;
 
 import java.util.ArrayList;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile">
+    tools:context=".Activities.Profile">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,12 +62,12 @@
             android:id="@+id/recyclerview_projects"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/btnNewProject"
+            android:layout_marginTop="22dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_below="@id/btnNewProject"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </RelativeLayout>
 

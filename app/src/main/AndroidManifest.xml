@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProjectActivity"></activity>
-        <activity android:name=".AddFurnitureActivity" />
-        <activity android:name=".AddPlantActivity" />
-        <activity android:name=".Profile" />
-        <activity android:name=".Register" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.ProjectActivity"></activity>
+        <activity android:name=".Activities.AddFurnitureActivity" />
+        <activity android:name=".Activities.AddPlantActivity" />
+        <activity android:name=".Activities.Profile" />
+        <activity android:name=".Activities.Register" />
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
