@@ -2,6 +2,7 @@ package com.example.fieldsurvey.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +17,15 @@ import com.example.fieldsurvey.R;
 public class AddPlantActivity extends AppCompatActivity {
     Spinner spinnerSpecies;
     EditText hunName, latinName;
+    String projectName,currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plant);
+        Intent i = getIntent();
+        projectName=i.getStringExtra("Name");
+        currentUser=i.getStringExtra("user");
+
         hunName = findViewById(R.id.etHunName);
         latinName = findViewById(R.id.etLatinName);
         spinnerSpecies = findViewById(R.id.spinnerspecies);
@@ -34,13 +40,8 @@ public class AddPlantActivity extends AppCompatActivity {
         String species= spinnerSpecies.getSelectedItem().toString();
         String hunNamePlant= hunName.getText().toString();
         String latinNamePlant=latinName.getText().toString();
-        String key = FirebaseDataHelper.Instance.UploadPlant(species,hunNamePlant,latinNamePlant);
-        if (key== "Invalid") {
-            Toast.makeText(getApplicationContext(),"Nem sikerult",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(getApplicationContext(), key, Toast.LENGTH_SHORT).show();
-        }
+        FirebaseDataHelper.Instance.UploadPlant(species,hunNamePlant,latinNamePlant,projectName,currentUser);
+
 
 
     }

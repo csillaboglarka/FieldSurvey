@@ -61,13 +61,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_projects"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_below="@id/btnNewProject"
             android:layout_marginTop="22dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
     </RelativeLayout>
 

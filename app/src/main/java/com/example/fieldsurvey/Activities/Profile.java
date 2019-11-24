@@ -105,16 +105,7 @@ public class Profile extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
-    public void addPlant(View view)
-    {
-        Intent intent = new Intent(getApplicationContext(), AddPlantActivity.class);
-        startActivity(intent);
-    }
-    public void addFurniture(View view)
-    {
-        Intent intent = new Intent(getApplicationContext(), AddFurnitureActivity.class);
-        startActivity(intent);
-    }
+
     public void CreateNewProject(View View) {
         Intent intentProject = new Intent(Profile.this, ProjectActivity.class);
 
@@ -127,6 +118,8 @@ public class Profile extends AppCompatActivity {
             return;
         }
         String currentUser=FirebaseDataHelper.Instance.getCurentUser();
+        intentProject.putExtra("Name",projectName);
+        intentProject.putExtra("user",currentUser);
         Project project=new Project(projectName,currentUser);
 
         String sessionKey = FirebaseDataHelper.Instance.CreateNewProject(project);

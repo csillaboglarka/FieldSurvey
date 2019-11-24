@@ -1,11 +1,14 @@
 package com.example.fieldsurvey.DataBase;
 
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.fieldsurvey.Activities.AddFurnitureActivity;
 import com.example.fieldsurvey.Classes.Furniture;
 import com.example.fieldsurvey.Classes.Plant;
 import com.example.fieldsurvey.Classes.Project;
@@ -26,6 +29,7 @@ public class FirebaseDataHelper {
         static FirebaseDatabase database = FirebaseDatabase.getInstance();
         static DatabaseReference surveyReference = database.getReference().child("Survey");
         static FirebaseAuth mAuth;
+
         String Uid;
 
         public static String getCurentUser(){
@@ -38,18 +42,53 @@ public class FirebaseDataHelper {
             }
         }
 
-        public static String UploadFurniture(String sType, String sMaterial) {
-            Furniture furniture = new Furniture(sType,sMaterial);
-            String key = surveyReference.push().getKey();
-            surveyReference.child(key).setValue(furniture);
-            return key;
+        public static void UploadFurniture(String sType, String sMaterial, final String projectName, final String currentUser) {
+            final Furniture furniture = new Furniture(sType,sMaterial);
+            surveyReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()){
+                        if(item.child("projectName").getValue().toString().equals(projectName) && item.child("userId").getValue().toString().equals(currentUser)) {
+                             String key =item.getKey();
+                             Log.i("ddd",key);
+                             String itemKey = surveyReference.child(key).child("Items").child("Furniture").push().getKey();
+                             surveyReference.child(key).child("Items").child("Furniture").child(itemKey).setValue(furniture);
+
+                        }
+                    }
+
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }
 
-        public static String UploadPlant(String sSpecies, String sHunName, String sLatinName) {
-            Plant plant = new Plant(sSpecies,sHunName,sLatinName);
-            String key = surveyReference.push().getKey();
-            surveyReference.child(key).setValue(plant);
-            return key;
+        public static void UploadPlant(String sSpecies, String sHunName, String sLatinName , final String projectName, final String currentUser) {
+            final Plant plant = new Plant(sSpecies,sHunName,sLatinName);
+
+            surveyReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot item : dataSnapshot.getChildren()){
+                        if(item.child("projectName").getValue().toString().equals(projectName) && item.child("userId").getValue().toString().equals(currentUser)) {
+                           String key =item.getKey();
+                            String itemKey = surveyReference.child(key).child("Items").child("Furniture").push().getKey();
+                            surveyReference.child(key).child("Items").child("Plants").child(itemKey).setValue(plant);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }
         public static String  CreateNewProject(Project projectName) {
 

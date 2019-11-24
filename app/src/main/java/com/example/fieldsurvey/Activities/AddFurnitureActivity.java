@@ -2,7 +2,9 @@ package com.example.fieldsurvey.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,10 +16,15 @@ import com.example.fieldsurvey.R;
 
 public class AddFurnitureActivity extends AppCompatActivity {
     Spinner spinnerType, spinnerMat;
+    String projectName,currentUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_furniture);
+        Intent i = getIntent();
+        projectName=i.getStringExtra("Name");
+        currentUser=i.getStringExtra("user");
+
 
         spinnerType=findViewById(R.id.spinnerfurntype);
         spinnerMat=findViewById(R.id.spinnerfurnmaterial);
@@ -35,15 +42,8 @@ public class AddFurnitureActivity extends AppCompatActivity {
     public void  AddtoDataBase(View view) {
         String type= spinnerType.getSelectedItem().toString();
         String material= spinnerMat.getSelectedItem().toString();
-        String key = FirebaseDataHelper.Instance.UploadFurniture(type,material);
-        if (key== "Invalid") {
-            Toast.makeText(getApplicationContext(),"Nem sikerult",Toast.LENGTH_SHORT).show();
+        FirebaseDataHelper.Instance.UploadFurniture(type,material,projectName,currentUser);
 
-
-        }
-        else {
-            Toast.makeText(getApplicationContext(), key, Toast.LENGTH_SHORT).show();
-        }
 
 
     }
