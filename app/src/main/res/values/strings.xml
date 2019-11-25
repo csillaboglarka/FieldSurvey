@@ -21,21 +21,21 @@
     <string name="txfurniturematerial">Material</string>
     <string name="btnAddFurniture">ADD FURNITURE</string>
     <string-array name="Species">
-        <item>Informatics</item>
-        <item>Software Enginieer</item>
-        <item>Law</item>
-        <item>Medicine</item>
+        <item>cserje</item>
+        <item>fenyo</item>
+        <item>lombhullato</item>
+        <item>virag</item>
     </string-array>
     <string-array name="Type">
-        <item>Informatics</item>
-        <item>Software Enginieer</item>
-        <item>Law</item>
-        <item>Medicine</item>
+        <item>asztal</item>
+        <item>pad</item>
+        <item>vaza</item>
+        <item>viragtarto</item>
     </string-array>
     <string-array name="Material">
-        <item>Informatics</item>
-        <item>Software Enginieer</item>
-        <item>Law</item>
-        <item>Medicine</item>
+        <item>fa</item>
+        <item>fem</item>
+        <item>aluminium</item>
+        <item>szalma</item>
     </string-array>
 </resources>
