@@ -23,6 +23,7 @@ public class itemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private itemAdapter.OnItemClickListener mListener;
     private static int TYPE_FURNITURE = 1;
     private static int TYPE_PLANT = 2;
+    private static int TYPE_NOTHING =0;
     private RecyclerView.ViewHolder holder;
     private int position;
 
@@ -46,19 +47,27 @@ public class itemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plant_item, parent, false);
             return new PlantViewHolder(v);
         } else {
+            if(viewType == TYPE_FURNITURE) {
 
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.furniture_item, parent, false);
-            return new FurnitureViewHolder(v);
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.furniture_item, parent, false);
+                return new FurnitureViewHolder(v);
+            }
+            else return null;
         }
     }
 
     @Override
     public int getItemViewType(int position) {
 
-        if (ItemList.get(position).furniture == null) {
+        if (ItemList.get(position).furniture == null && ItemList.get(position).plant != null) {
             return TYPE_PLANT;
         } else {
-            return TYPE_FURNITURE;
+            if (ItemList.get(position).plant == null && ItemList.get(position).furniture != null) {
+                return TYPE_FURNITURE;
+            }
+            else {
+                return TYPE_NOTHING;
+            }
         }
     }
 
@@ -70,14 +79,16 @@ public class itemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             ((FurnitureViewHolder )holder).material.setText((ItemList.get(position).furniture.getMaterial()));
             ((FurnitureViewHolder )holder).type.setText(ItemList.get(position).furniture.getType());
-        } else {
-
-            ((PlantViewHolder) holder).species.setText(ItemList.get(position).getPlant().getPlantSpecies());
-            ((PlantViewHolder) holder).hunName.setText(ItemList.get(position).getPlant().getHungarianName());
-            ((PlantViewHolder) holder).latinName.setText(ItemList.get(position).getPlant().getLatinName());
-
         }
-    }
+            if (getItemViewType(position) == TYPE_PLANT) {
+
+                ((PlantViewHolder) holder).species.setText(ItemList.get(position).getPlant().getPlantSpecies());
+                ((PlantViewHolder) holder).hunName.setText(ItemList.get(position).getPlant().getHungarianName());
+                ((PlantViewHolder) holder).latinName.setText(ItemList.get(position).getPlant().getLatinName());
+
+            }
+        }
+
 
     @Override
     public int getItemCount() {
