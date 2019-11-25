@@ -1,6 +1,7 @@
 package com.example.fieldsurvey.Adapters;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +10,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fieldsurvey.Classes.Furniture;
 import com.example.fieldsurvey.Classes.Item;
+import com.example.fieldsurvey.Classes.Plant;
 import com.example.fieldsurvey.Classes.Project;
 import com.example.fieldsurvey.R;
 
 import java.util.ArrayList;
 
-public class itemAdapter extends RecyclerView.Adapter<itemAdapter.ViewHolder>{
+public class itemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     ArrayList<Item> ItemList;
     private itemAdapter.OnItemClickListener mListener;
     private static int TYPE_FURNITURE = 1;
     private static int TYPE_PLANT = 2;
+    private RecyclerView.ViewHolder holder;
+    private int position;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -29,45 +34,49 @@ public class itemAdapter extends RecyclerView.Adapter<itemAdapter.ViewHolder>{
         mListener = listener;
     }
 
-    public itemAdapter(ArrayList<Item> s) {
-        this.ItemList = s;
+    public itemAdapter(ArrayList<Item> items) {
+        this.ItemList = items;
     }
 
     @NonNull
     @Override
-    public itemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v;
-        if(viewType == TYPE_FURNITURE ) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.furniture_item, parent, false);
-            return new itemAdapter.ViewHolder(v);
-        }
-        else {
+        if (viewType == TYPE_PLANT) {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.plant_item, parent, false);
-            return new itemAdapter.ViewHolder(v);
+            return new PlantViewHolder(v);
+        } else {
+
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.furniture_item, parent, false);
+            return new FurnitureViewHolder(v);
         }
     }
+
     @Override
     public int getItemViewType(int position) {
-        if(ItemList.get(position).furniture.equals(null)) {
+
+        if (ItemList.get(position).furniture == null) {
             return TYPE_PLANT;
-        }
-        else {
+        } else {
             return TYPE_FURNITURE;
         }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull itemAdapter.ViewHolder holder, int position) {
-      if( getItemViewType(position) == TYPE_FURNITURE){
-        holder.material.setText((ItemList.get(position).furniture.getMaterial()));
-        holder.type.setText(ItemList.get(position).furniture.getType());
-      }
-      else {
-          holder.species.setText(ItemList.get(position).plant.getPlantSpecies());
-          holder.hunName.setText(ItemList.get(position).plant.getHungarianName());
-          holder.latinName.setText(ItemList.get(position).plant.getLatinName());
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-      }
+        if (getItemViewType(position) == TYPE_FURNITURE) {
+
+
+            ((FurnitureViewHolder )holder).material.setText((ItemList.get(position).furniture.getMaterial()));
+            ((FurnitureViewHolder )holder).type.setText(ItemList.get(position).furniture.getType());
+        } else {
+
+            ((PlantViewHolder) holder).species.setText(ItemList.get(position).getPlant().getPlantSpecies());
+            ((PlantViewHolder) holder).hunName.setText(ItemList.get(position).getPlant().getHungarianName());
+            ((PlantViewHolder) holder).latinName.setText(ItemList.get(position).getPlant().getLatinName());
+
+        }
     }
 
     @Override
@@ -75,30 +84,27 @@ public class itemAdapter extends RecyclerView.Adapter<itemAdapter.ViewHolder>{
         return ItemList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView material,type;
-        TextView latinName,hunName,species;
+    class FurnitureViewHolder extends RecyclerView.ViewHolder {
 
-        public ViewHolder(@NonNull View itemView) {
+        public TextView material, type;
+
+        FurnitureViewHolder(@NonNull View itemView) {
             super(itemView);
             material = itemView.findViewById(R.id.materialTextView);
             type = itemView.findViewById(R.id.typeTextView);
+        }
+    }
+
+    class PlantViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView latinName, hunName, species;
+
+        PlantViewHolder(@NonNull View itemView) {
+            super(itemView);
             latinName = itemView.findViewById(R.id.latinNameTextView);
             hunName = itemView.findViewById(R.id.hunNameTextView);
             species = itemView.findViewById(R.id.speciesTextView);
-
-           /* itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
-                    }
-                }
-            });*/
         }
     }
-}
 
+}

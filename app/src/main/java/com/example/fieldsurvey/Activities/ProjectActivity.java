@@ -66,10 +66,10 @@ public class ProjectActivity extends AppCompatActivity {
                                     String spec = dupla.child("plantSpecies").getValue().toString();
                                     String huName = dupla.child("hungarianName").getValue().toString();
                                     String laName = dupla.child("latinName").getValue().toString();
-                                    Log.i("dddd",huName + laName);
+                                    Log.i("dddd",spec + huName + laName);
                                     Plant p = new Plant(spec,huName,laName);
                                     Item it1 = new Item(p);
-                                    //itemList.add(it1);
+                                    itemList.add(it1);
                             }
                         }
                         if(item.child("Items").child("Furniture").exists()) {
