@@ -61,7 +61,7 @@ public class Profile extends AppCompatActivity {
 
                 }
 
-                projectAdapter = new MyAdapter(projectlist);
+                projectAdapter = new MyAdapter(projectlist,Profile.this,currentUser);
                 recyclerView = findViewById(R.id.recyclerview_projects);
                 layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(layoutManager);

@@ -22,30 +22,13 @@
         android:text="@string/signout"
         android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:id="@+id/btnaddplant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/signOut"
-        android:onClick="addPlant"
-        android:layout_centerHorizontal="true"
-        android:text="@string/btnAddPlant"
-      />
 
-    <Button
-        android:id="@+id/btnaddfurniture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnaddplant"
-        android:onClick="addFurniture"
-        android:layout_centerHorizontal="true"
-        android:text="@string/btnAddFurniture"
-        />
+
         <EditText
             android:id="@+id/etNewProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnaddfurniture"
+            android:layout_below="@id/signOut"
             android:layout_centerHorizontal="true"
          />
 

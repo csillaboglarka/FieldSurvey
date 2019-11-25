@@ -14,9 +14,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.fieldsurvey.Adapters.MyAdapter;
+import com.example.fieldsurvey.Adapters.itemAdapter;
+import com.example.fieldsurvey.Classes.Furniture;
+import com.example.fieldsurvey.Classes.Item;
+import com.example.fieldsurvey.Classes.Plant;
+import com.example.fieldsurvey.Classes.Project;
 import com.example.fieldsurvey.DataBase.FirebaseDataHelper;
 import com.example.fieldsurvey.R;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -24,9 +33,13 @@ import java.util.ArrayList;
 public class ProjectActivity extends AppCompatActivity {
     Button addItem;
     RecyclerView recyclerView;
-    ArrayList<String> s;
+    ArrayList<Item> itemList;
     String projectName;
     String currentUser;
+    RecyclerView.LayoutManager layoutManager;
+    itemAdapter myAdapter;
+    static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    static DatabaseReference surveyReference = database.getReference().child("Survey");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +48,60 @@ public class ProjectActivity extends AppCompatActivity {
         Intent i = getIntent();
         projectName=i.getStringExtra("Name");
         currentUser= FirebaseDataHelper.Instance.getCurentUser();
-        Log.i("ddd",currentUser);
+        itemList= new ArrayList<>();
+        recyclerView=findViewById(R.id.recyclerview_projects);
+
+        final String currentUser=FirebaseDataHelper.Instance.getCurentUser();
+        surveyReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot item : dataSnapshot.getChildren()) {
+                    String user = item.child("userId").getValue().toString();
+                    //itt az volt a gond hogy nem csak projektek voltak a databesben ezert itt errort adott a txt-nel
+                    String name = item.child("projectName").getValue().toString();
+                    if (user.equals(currentUser) && name.equals(projectName) ) {
+
+                        if(item.child("Items").child("Plants").exists()) {
+                            for(DataSnapshot dupla : item.child("Items").child("Plants").getChildren()) {
+                                    String spec = dupla.child("plantSpecies").getValue().toString();
+                                    String huName = dupla.child("hungarianName").getValue().toString();
+                                    String laName = dupla.child("latinName").getValue().toString();
+                                    Log.i("dddd",huName + laName);
+                                    Plant p = new Plant(spec,huName,laName);
+                                    Item it1 = new Item(p);
+                                    //itemList.add(it1);
+                            }
+                        }
+                        if(item.child("Items").child("Furniture").exists()) {
+                            for(DataSnapshot dupla : item.child("Items").child("Furniture").getChildren()) {
+                                String mat = dupla.child("material").getValue().toString();
+                                String typ = dupla.child("type").getValue().toString();
+                                Furniture f = new Furniture(mat,typ);
+                                Item it = new Item(f);
+                                itemList.add(it);
+                            }
+
+                        }
 
 
-        Log.i("ddd","ddd");
-        //recyclerView.findViewById(R.id.recyclerview_items);
+                    }
+
+
+                }
+                myAdapter = new itemAdapter(itemList);
+                layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(myAdapter);
+                recyclerView.setHasFixedSize(true);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
 
 

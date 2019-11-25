@@ -1,5 +1,7 @@
 package com.example.fieldsurvey.Adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fieldsurvey.Activities.ProjectActivity;
 import com.example.fieldsurvey.Classes.Project;
 import com.example.fieldsurvey.R;
 
@@ -16,6 +19,8 @@ import java.util.ArrayList;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     ArrayList<Project> projectlist;
     private OnItemClickListener mListener;
+    Context context;
+    String currentUser;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -25,8 +30,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         mListener = listener;
     }
 
-    public MyAdapter(ArrayList<Project> s) {
+    public MyAdapter(ArrayList<Project> s, Context context, String currentUser) {
         this.projectlist = s;
+        this.context=context;
+        this.currentUser=currentUser;
     }
 
     @NonNull
@@ -53,17 +60,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             super(itemView);
             textView = itemView.findViewById(R.id.project_name);
 
-           /* itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        }
+
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        Intent goProject = new Intent(context, ProjectActivity.class);
+                        goProject.putExtra("user",currentUser);
+                        goProject.putExtra("Name",textView.getText().toString());
+                        context.startActivity(goProject);
+
+
+
                     }
                 }
-            });*/
+            });
         }
     }
 }
