@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.AddPlantActivity">
+
     <TextView
         android:id="@+id/plantTitle"
         android:layout_width="wrap_content"
@@ -72,10 +73,27 @@
             android:ems="10" />
 
         <Button
-            android:id="@+id/addPlant"
+            android:id="@+id/addImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/etLatinName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:onClick="AddTODataBase"
+            android:text="@string/addplantimage" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/imageViewPlant"
+            android:layout_below="@+id/addImage"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:id="@+id/addPlant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageViewPlant"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:onClick="AddTODataBase"

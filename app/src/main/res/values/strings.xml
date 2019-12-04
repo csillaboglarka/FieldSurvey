@@ -20,6 +20,7 @@
     <string name="txfurnituretype">Type</string>
     <string name="txfurniturematerial">Material</string>
     <string name="btnAddFurniture">ADD FURNITURE</string>
+    <string name="addplantimage">Capture and Upload image</string>
     <string-array name="Species">
         <item>cserje</item>
         <item>fenyo</item>

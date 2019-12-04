@@ -49,12 +49,11 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
-                    String txt = item.child("userId").getValue().toString();
+                    String userId = item.child("userId").getValue().toString();
                     //itt az volt a gond hogy nem csak projektek voltak a databesben ezert itt errort adott a txt-nel
-                    Log.i("fbdb",txt);
-                    if (txt.equals(currentUser)) {
-                        String q = item.child("projectName").getValue().toString();
-                        Project newProject = new Project(q);
+                    if (userId.equals(currentUser)) {
+                        String projectName = item.child("projectName").getValue().toString();
+                        Project newProject = new Project(projectName);
                         projectlist.add(newProject);
 
                     }
@@ -76,26 +75,6 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-//        recyclerView=findViewById(R.id.recyclerview_projects);
-//        recyclerView.setHasFixedSize(true);
-//        layoutManager=new LinearLayoutManager(this);
-//        recyclerView.setLayoutManager(layoutManager);
-//        //recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        //recyclerView.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL));
-//
-//        //FirebaseDataHelper.Instance.GetProjects(FirebaseDataHelper.Instance.getCurentUser());
-//
-//        adapter=new MyAdapter(projectlist);
-//
-//        recyclerView.setAdapter(adapter);
-
-        /*adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                projectlist.get(position);
-            }
-        });*/
-
     }
 
 
@@ -109,8 +88,8 @@ public class Profile extends AppCompatActivity {
     public void CreateNewProject(View View) {
         Intent intentProject = new Intent(Profile.this, ProjectActivity.class);
 
-        EditText projectET= findViewById(R.id.etNewProject);
-        String projectName = projectET.getText().toString();
+        EditText et_project= findViewById(R.id.etNewProject);
+        String projectName = et_project.getText().toString();
 
         if (projectName == null || projectName.isEmpty()) {
             Toast addSessionNameToast = Toast.makeText(getApplicationContext(), "Add session name", Toast.LENGTH_SHORT);

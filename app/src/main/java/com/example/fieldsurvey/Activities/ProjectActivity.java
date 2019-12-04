@@ -31,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class ProjectActivity extends AppCompatActivity {
-    Button addItem;
+    Button btn_addItem;
     RecyclerView recyclerView;
     ArrayList<Item> itemList;
     String projectName;
@@ -62,23 +62,23 @@ public class ProjectActivity extends AppCompatActivity {
                     if (user.equals(currentUser) && name.equals(projectName) ) {
 
                         if(item.child("Items").child("Plants").exists()) {
-                            for(DataSnapshot dupla : item.child("Items").child("Plants").getChildren()) {
-                                    String spec = dupla.child("plantSpecies").getValue().toString();
-                                    String huName = dupla.child("hungarianName").getValue().toString();
-                                    String laName = dupla.child("latinName").getValue().toString();
+                            for(DataSnapshot objects : item.child("Items").child("Plants").getChildren()) {
+                                    String spec = objects.child("plantSpecies").getValue().toString();
+                                    String huName = objects.child("hungarianName").getValue().toString();
+                                    String laName = objects.child("latinName").getValue().toString();
                                     Log.i("dddd",spec + huName + laName);
-                                    Plant p = new Plant(spec,huName,laName);
-                                    Item it1 = new Item(p);
-                                    itemList.add(it1);
+                                    Plant plant = new Plant(spec,huName,laName);
+                                    Item plantItem = new Item(plant);
+                                    itemList.add(plantItem);
                             }
                         }
                         if(item.child("Items").child("Furniture").exists()) {
-                            for(DataSnapshot dupla : item.child("Items").child("Furniture").getChildren()) {
-                                String mat = dupla.child("material").getValue().toString();
-                                String typ = dupla.child("type").getValue().toString();
-                                Furniture f = new Furniture(mat,typ);
-                                Item it = new Item(f);
-                                itemList.add(it);
+                            for(DataSnapshot objects : item.child("Items").child("Furniture").getChildren()) {
+                                String mat = objects.child("material").getValue().toString();
+                                String typ = objects.child("type").getValue().toString();
+                                Furniture furniture = new Furniture(mat,typ);
+                                Item furnitureItem = new Item(furniture);
+                                itemList.add(furnitureItem);
                             }
 
                         }

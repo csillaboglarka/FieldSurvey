@@ -27,8 +27,8 @@ import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button login, register;
-    EditText uEmail, uPass;
+    Button btn_login, btn_register;
+    EditText et_uEmail, et_uPass;
     Intent intent;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        login = findViewById(R.id.LoginButton);
-        register = findViewById(R.id.RegistrationButton);
-        uEmail = findViewById(R.id.Email);
-        uPass = findViewById(R.id.Password);
+        btn_login = findViewById(R.id.LoginButton);
+        btn_register = findViewById(R.id.RegistrationButton);
+        et_uEmail = findViewById(R.id.Email);
+        et_uPass = findViewById(R.id.Password);
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void signIn(View view) {  // Itt ellenorzi hogy megvan a user a firebase-ben es ha megvan csak akkor megy a kovetkezo oldalra
         intent = new Intent(MainActivity.this, Profile.class);
-        String email = uEmail.getText().toString();
-        String password = uPass.getText().toString();
+        String email = et_uEmail.getText().toString();
+        String password = et_uPass.getText().toString();
         if (!validateForm()) {  // megnezi hogy kivan-e toltve minden sor
             return;
         }
@@ -107,15 +107,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validateForm() {
-        if (TextUtils.isEmpty(uEmail.getText().toString())) {
-            uEmail.setError("Required.");
+        if (TextUtils.isEmpty(et_uEmail.getText().toString())) {
+            et_uEmail.setError("Required.");
             return false;
-        } else if (TextUtils.isEmpty(uPass.getText().toString())) {
-            uPass.setError("Required.");
+        } else if (TextUtils.isEmpty(et_uPass.getText().toString())) {
+            et_uPass.setError("Required.");
             return false;
         } else {
-            uEmail.setError(null);
-            uPass.setError(null);
+            et_uEmail.setError(null);
+            et_uPass.setError(null);
             return true;
         }
     }
