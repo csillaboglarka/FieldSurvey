@@ -6,6 +6,7 @@ public class Plant {
     private String hungarianName;
     private String latinName;
 
+
     public Plant(String plantSpecies, String hungarianName, String latinName){
         //this.plantId=plantId;
         this.plantSpecies=plantSpecies;

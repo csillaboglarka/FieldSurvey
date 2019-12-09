@@ -1,6 +1,5 @@
 package com.example.fieldsurvey.Classes;
 
-import java.util.ArrayList;
 
 public class Project {
     String projectName;
