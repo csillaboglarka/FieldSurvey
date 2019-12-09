@@ -52,7 +52,7 @@ public class ProjectActivity extends AppCompatActivity {
         recyclerView=findViewById(R.id.recyclerview_projects);
 
         final String currentUser=FirebaseDataHelper.Instance.getCurentUser();
-        surveyReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        surveyReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot item : dataSnapshot.getChildren()) {

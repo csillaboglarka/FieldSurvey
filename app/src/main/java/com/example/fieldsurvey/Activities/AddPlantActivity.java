@@ -20,8 +20,10 @@ import android.widget.Toast;
 
 import com.example.fieldsurvey.DataBase.FirebaseDataHelper;
 import com.example.fieldsurvey.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 public class AddPlantActivity extends AppCompatActivity {
     Spinner spinnerSpecies;
@@ -57,7 +59,7 @@ public class AddPlantActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent= new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
               //  uri=getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
-              //  intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+               // intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
                 startActivityForResult(intent,CAMERA_REQUEST_CODE);
             }
         });
@@ -71,13 +73,13 @@ public class AddPlantActivity extends AppCompatActivity {
         if(requestCode == CAMERA_REQUEST_CODE && resultCode==RESULT_OK){
             uri=data.getData();
 
-            /*StorageReference filepath= mStorage.child("Photos").child(uri.getLastPathSegment());
-            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(AddPlantActivity.this,"Upload finished!", Toast.LENGTH_LONG).show();
-                }
-            });*/
+//            StorageReference filepath= mStorage.child("Photos").child(uri.getLastPathSegment());
+//            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    Toast.makeText(AddPlantActivity.this,"Upload finished!", Toast.LENGTH_LONG).show();
+//                }
+//            });
 
             Bitmap bitmap=(Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(bitmap);
@@ -90,7 +92,9 @@ public class AddPlantActivity extends AppCompatActivity {
         String hunNamePlant= et_hunName.getText().toString();
         String latinNamePlant=et_latinName.getText().toString();
         FirebaseDataHelper.Instance.UploadPlant(species,hunNamePlant,latinNamePlant,projectName,currentUser);
-        //startActivity(intent);
+        intent.putExtra("Name",projectName);
+        intent.putExtra("user",currentUser);
+        startActivity(intent);
 
 
 
