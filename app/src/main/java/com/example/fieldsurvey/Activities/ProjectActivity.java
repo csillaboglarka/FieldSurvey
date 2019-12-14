@@ -5,17 +5,29 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.DocumentsContract;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +36,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.fieldsurvey.Adapters.itemAdapter;
 import com.example.fieldsurvey.Classes.Furniture;
 import com.example.fieldsurvey.Classes.Item;
@@ -81,6 +95,11 @@ public class ProjectActivity extends AppCompatActivity {
     int counter=0;
     Button btn_createPDF;
     RelativeLayout relativeLayout;
+    ProgressDialog pDialog;
+    boolean boolean_permission;
+    boolean boolean_save;
+    public static int REQUEST_PERMISSIONS = 1;
+    ArrayList<String> selectedImagesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +119,7 @@ public class ProjectActivity extends AppCompatActivity {
         btn_createPDF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreatePDF();
+                createMultiPagePDF();
             }
         });
 
@@ -108,10 +127,128 @@ public class ProjectActivity extends AppCompatActivity {
 
     }
 
-    private Bitmap getBitmapFromView(View view) {
+
+    private void createMultiPagePDF() {
+
+        pDialog = new ProgressDialog(ProjectActivity.this,R.style.MyDialogTheme);
+        pDialog.setMessage("Creating PDF");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                if (boolean_save) {
+//                    Intent intent = new Intent(getApplicationContext(), PDFViewActivity.class);
+//                    intent.putExtra("pdfFile", targetPdf);
+//                    startActivity(intent);
+
+                } else {
+                    if (boolean_permission) {
+                        pDialog = new ProgressDialog(ProjectActivity.this);
+                        pDialog.setMessage("Please wait");
+                            bitmap = loadBitmapFromView(recyclerView, recyclerView.getWidth(), recyclerView.getHeight());
+                        createMultiplePDF();
+                    } else {
+
+                    }
+                    createMultiplePDF();
+                }
+            }
+        }, 4000);
+    }
+
+
+    public static Bitmap loadBitmapFromView(View v, int width, int height) {
+        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(b);
+        v.draw(c);
+        return b;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSIONS) {
+
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                boolean_permission = true;
+
+            } else {
+                Toast.makeText(getApplicationContext(), "Please allow the permission", Toast.LENGTH_LONG).show();
+
+            }
+        }
+    }
+
+
+    public void createMultiplePDF() {
+        File filePath = new File(Environment.getExternalStorageDirectory()+File.separator+"PDF Folder");
+        filePath.mkdirs();
+
+        Date date = new Date() ;
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(date);
+
+        final File myFile = new File(filePath + timeStamp + ".pdf");
+
+        Document document = new Document(PageSize.A4, 1, 1, 0, 0);
+
+        PdfWriter writer = null;
+        try {
+            writer = PdfWriter.getInstance(document, new FileOutputStream(myFile));
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        document.open();
+
+        try {
+            int i;
+            for(i = 0; i<itemList.size(); ++i) {
+                Drawable myDrawable = null;
+
+                recyclerView.setDrawingCacheEnabled(true);
+
+                Bitmap processedBitmap;
+                processedBitmap = getBitmapFromView(recyclerView.getChildAt(i), i);
+                Log.i("hsvp", processedBitmap.toString());
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                processedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                Image myImg = Image.getInstance(stream.toByteArray());
+                Log.i("hsvi", myImg.getId().toString());
+                myImg.scaleToFit(PageSize.A4);
+                myImg.setAlignment(Image.ALIGN_CENTER);
+                document.add(myImg);
+                writer.setPageEmpty(false);
+            }
+
+        }catch (DocumentException ex){
+                ex.printStackTrace();
+            } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        document.close();
+
+            pDialog.dismiss();
+
+//            Intent intent = new Intent(getApplicationContext(), PDFViewActivity.class);
+//            intent.putExtra("pdfFile", targetPdf);
+//            startActivity(intent);
+//            finish();
+    }
+
+   private Bitmap getBitmapFromView(View view,int index) {
         RecyclerView hsv = findViewById(R.id.recyclerview_projects);
-        int totalHeight = hsv.getChildAt(0).getHeight();
-        int totalWidth = hsv.getChildAt(0).getWidth();
+        int totalHeight = hsv.getChildAt(index).getHeight();
+        int totalWidth = hsv.getChildAt(index).getWidth();
+        Log.i("hsv",hsv.getChildAt(index).toString());
         Bitmap returnedBitmap = Bitmap.createBitmap(totalWidth, totalHeight,Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(returnedBitmap);
         Drawable bgDrawable =view.getBackground();
@@ -123,96 +260,6 @@ public class ProjectActivity extends AppCompatActivity {
         view.draw(canvas);
 
         return returnedBitmap;
-    }
-
-
-    private static void addImage(Document document,byte[] byteArray)
-    {
-        Image image = null;
-        try
-        {
-            image = Image.getInstance(byteArray);
-        }
-        catch (BadElementException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (MalformedURLException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch (IOException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // image.scaleAbsolute(150f, 150f);
-        try
-        {
-            document.add(image);
-        } catch (DocumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public void CreatePDF()
-    {
-
-        File folder = new File(Environment.getExternalStorageDirectory()+File.separator+"PDF Folder");
-        folder.mkdirs();
-
-        Date date = new Date() ;
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(date);
-
-        final File myFile = new File(folder + timeStamp + ".pdf");
-        try {
-            OutputStream output  = new FileOutputStream(myFile);
-            Document document = new Document(PageSize.A4);
-            try{
-                PdfWriter.getInstance(document, output);
-                document.open();
-                LinearLayout view2 = (LinearLayout)findViewById(R.id.view2);
-
-                view2.setDrawingCacheEnabled(true);
-                Bitmap screen2= getBitmapFromView(view2);
-                ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
-                screen2.compress(Bitmap.CompressFormat.JPEG,100, stream2);
-                byte[] byteArray2 = stream2.toByteArray();
-                addImage(document,byteArray2);
-
-                document.close();
-                AlertDialog.Builder builder =  new AlertDialog.Builder(ProjectActivity.this,R.style.MyDialogTheme);
-                builder.setTitle("Success")
-                        .setMessage("enter code herePDF File Generated Successfully.")
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton)
-                            {
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setDataAndType(Uri.fromFile(myFile), "application/pdf");
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                                startActivity(intent);
-                            }
-
-                        }).show();
-
-                //document.add(new Paragraph(mBodyEditText.getText().toString()));
-            }catch (DocumentException e)
-            {
-                //loading.dismiss();
-                e.printStackTrace();
-            }
-
-        }catch (FileNotFoundException e)
-        {
-            // loading.dismiss();
-            e.printStackTrace();
-        }
-
-
     }
 
     private void GetObjects() {
