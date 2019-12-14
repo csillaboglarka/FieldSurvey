@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -67,6 +68,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
                         Intent goProject = new Intent(context, ProjectActivity.class);
+                        goProject.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        goProject.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         goProject.putExtra("user",currentUser);
                         goProject.putExtra("Name",textView.getText().toString());
                         context.startActivity(goProject);

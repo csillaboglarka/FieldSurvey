@@ -4,28 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context=".Activities.AddFurnitureActivity">
     <TextView
         android:id="@+id/tvFurnitureTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:paddingTop="20dp"
         android:text="@string/txFurnitureTitle"
-        android:textColor="#367738"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="30dp">
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="40dp">
 
         <TextView
             android:id="@+id/tvFurnitureType"
@@ -36,36 +38,80 @@
 
         <Spinner
             android:id="@+id/spinnerfurntype"
+            android:theme="@style/mySpinnerItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvFurnitureType"
-            android:hint="Type" />
+            />
 
         <TextView
             android:id="@+id/tvFurnMaterial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/txfurniturematerial"
-            android:layout_below="@+id/spinnerfurntype"
             android:textSize="20sp" />
 
         <Spinner
             android:id="@+id/spinnerfurnmaterial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvFurnMaterial"
-            android:hint="Material" />
+            android:theme="@style/mySpinnerItemStyle"
+         />
+        <TextView
+            android:id="@+id/tvLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/location"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etLocationNumber"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="@color/colorText"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/addImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_marginTop="10dp"
+            android:text="@string/addFurnitureImage" />
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:id="@+id/imageViewFurniture" />
+        <TextView
+            android:text="@string/your_image"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:id="@+id/imageLabel"/>
+
 
         <Button
             android:id="@+id/addFurniture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/spinnerfurnmaterial"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:onClick="AddtoDataBase"
+            android:backgroundTint="@color/colorPrimary"
+            android:onClick="AddToDataBase"
             android:text="@string/btnAddFurniture" />
 
-    </RelativeLayout>
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/colorGray"
+        app:itemTextColor="@color/colorText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

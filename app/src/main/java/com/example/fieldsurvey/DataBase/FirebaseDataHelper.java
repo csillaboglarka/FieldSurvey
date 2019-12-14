@@ -2,6 +2,7 @@ package com.example.fieldsurvey.DataBase;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,15 +43,14 @@ public class FirebaseDataHelper {
             }
         }
 
-        public static void UploadFurniture(String sType, String sMaterial, final String projectName, final String currentUser) {
-            final Furniture furniture = new Furniture(sType,sMaterial);
+        public static void UploadFurniture(String sType, String sMaterial, final String projectName, final String currentUser, final String photoName,String locationNumb) {
+            final Furniture furniture = new Furniture(sType,sMaterial,photoName,locationNumb);
             surveyReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot item : dataSnapshot.getChildren()){
                         if(item.child("projectName").getValue().toString().equals(projectName) && item.child("userId").getValue().toString().equals(currentUser)) {
                              String key =item.getKey();
-                             Log.i("ddd",key);
                              String itemKey = surveyReference.child(key).child("Items").child("Furniture").push().getKey();
                              surveyReference.child(key).child("Items").child("Furniture").child(itemKey).setValue(furniture);
 
@@ -68,8 +68,8 @@ public class FirebaseDataHelper {
 
         }
 
-        public static void UploadPlant(String sSpecies, String sHunName, String sLatinName , final String projectName, final String currentUser) {
-            final Plant plant = new Plant(sSpecies,sHunName,sLatinName);
+        public static void UploadPlant(String sSpecies, String sHunName, String sLatinName , final String projectName, final String currentUser, String plantImage,String locationNumber) {
+            final Plant plant = new Plant(sSpecies,sHunName,sLatinName,plantImage,locationNumber);
 
             surveyReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override

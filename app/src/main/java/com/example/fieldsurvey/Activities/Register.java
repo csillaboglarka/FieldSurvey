@@ -2,7 +2,6 @@ package com.example.fieldsurvey.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.fieldsurvey.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,21 +21,22 @@ public class Register extends AppCompatActivity {
     Button btn_register;
     EditText et_uName, et_uEmail, et_uPass;
     Intent intent;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        InitializeUI();
+        mAuth = FirebaseAuth.getInstance();
+    }
 
+    private void InitializeUI() {
         btn_register= findViewById(R.id.RegistrationButton);;
         et_uName = findViewById(R.id.Name);
         et_uEmail = findViewById(R.id.UserEmail);
         et_uPass = findViewById(R.id.UserPassword);
-        mAuth = FirebaseAuth.getInstance();
     }
-
 
 
     public boolean validateForm() {
@@ -71,9 +70,11 @@ public class Register extends AppCompatActivity {
                 } else {
                     Toast.makeText(Register.this, "Succesful", Toast.LENGTH_SHORT).show();
                     intent = new Intent(getApplicationContext(), Profile.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
-                //hideProgressDialog();
+
             }
         });
     }

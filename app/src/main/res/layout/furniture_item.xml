@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:backgroundTint="@color/cardview_dark_background"
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
     app:cardCornerRadius="4dp">
@@ -13,30 +14,39 @@
 
 
 
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:id="@+id/linear"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/typeTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Test test test"
-                android:textSize="20dp"
-                android:textStyle="bold" />
+                android:text="@string/text"
+                android:textSize="20sp" />
             <TextView
                 android:id="@+id/materialTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Test test test"
-                android:textSize="20dp"/>
+                android:text="@string/text"
+                android:textSize="20sp"/>
 
-
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewLocation"
+                android:text="@string/text"/>
 
         </LinearLayout>
+        <ImageView
+            android:id="@+id/imageViewFurniture"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"/>
 
 
 

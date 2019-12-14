@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/home"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/navigation_logout"
+        android:icon="@drawable/logout"
+        android:title="LogOut"/>
+    <item
+        android:id="@+id/navigation_addProject"
+        android:icon="@drawable/ic_add_circle"
+        android:title="Add project"/>
+    <item
+        android:id="@+id/navigation_addItem"
+        android:icon="@drawable/ic_add_circle"
+        android:title="Add "/>
+
+
+
+</menu>

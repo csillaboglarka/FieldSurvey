@@ -4,23 +4,25 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="loginbutton">LOGIN</string>
-    <string name="registrationbutton">REGISTER</string>
-    <string name="register">Register</string>
+    <string name="registrationbutton">No account yet? Create one</string>
+    <string name="register"> Register</string>
     <string name="name">Name</string>
     <string name="registeremail">Email</string>
     <string name="registerpass">Password</string>
-    <string name="registerbutton">REGISTER</string>
+    <string name="registerbutton">Register</string>
+    <string name="loading">Loading…</string>
     <string name="signout">Sign Out</string>
-    <string name="planttitle">Plant</string>
+    <string name="planttitle">New Plant</string>
     <string name="txplantspecies">Plant species</string>
     <string name="txhungarianname">Hungarian name</string>
     <string name="txlatinname">Latin name</string>
     <string name="btnAddPlant">ADD PLANT</string>
-    <string name="txFurnitureTitle">Furniture</string>
+    <string name="txFurnitureTitle">New Furniture</string>
     <string name="txfurnituretype">Type</string>
     <string name="txfurniturematerial">Material</string>
     <string name="btnAddFurniture">ADD FURNITURE</string>
     <string name="addplantimage">Capture and Upload image</string>
+    <string name="your_image">Your image</string>
     <string-array name="Species">
         <item>cserje</item>
         <item>fenyo</item>
@@ -39,4 +41,10 @@
         <item>aluminium</item>
         <item>szalma</item>
     </string-array>
+    <string name="addFurnitureImage">Capture image</string>
+    <string name="text">TEST TEST TEST</string>
+    <string name="newProject"> Create new project</string>
+    <string name="projectName">Project Name</string>
+    <string name="location">Location</string>
+    <string name="save">Remember</string>
 </resources>

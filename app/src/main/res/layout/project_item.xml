@@ -2,8 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:backgroundTint="@color/cardview_dark_background"
     android:layout_marginBottom="4dp"
     app:cardCornerRadius="4dp">
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,16 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:padding="7dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/project_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Test test test"
                 android:textSize="25sp"
-                android:textStyle="bold" />
+                 />
 
 
 
