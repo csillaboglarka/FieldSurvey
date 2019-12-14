@@ -9,11 +9,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.fieldsurvey.Adapters.itemAdapter;
 import com.example.fieldsurvey.Classes.Furniture;
@@ -33,7 +42,25 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class ProjectActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -52,8 +79,8 @@ public class ProjectActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     int counter=0;
-
-
+    Button btn_createPDF;
+    RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +97,120 @@ public class ProjectActivity extends AppCompatActivity {
         MenuInit();
         GetObjects();
 
+        btn_createPDF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreatePDF();
+            }
+        });
 
+
+
+    }
+
+    private Bitmap getBitmapFromView(View view) {
+        RecyclerView hsv = findViewById(R.id.recyclerview_projects);
+        int totalHeight = hsv.getChildAt(0).getHeight();
+        int totalWidth = hsv.getChildAt(0).getWidth();
+        Bitmap returnedBitmap = Bitmap.createBitmap(totalWidth, totalHeight,Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(returnedBitmap);
+        Drawable bgDrawable =view.getBackground();
+        if (bgDrawable!=null) {
+            bgDrawable.draw(canvas);
+        }   else{
+            canvas.drawColor(Color.WHITE);
+        }
+        view.draw(canvas);
+
+        return returnedBitmap;
+    }
+
+
+    private static void addImage(Document document,byte[] byteArray)
+    {
+        Image image = null;
+        try
+        {
+            image = Image.getInstance(byteArray);
+        }
+        catch (BadElementException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (MalformedURLException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // image.scaleAbsolute(150f, 150f);
+        try
+        {
+            document.add(image);
+        } catch (DocumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void CreatePDF()
+    {
+
+        File folder = new File(Environment.getExternalStorageDirectory()+File.separator+"PDF Folder");
+        folder.mkdirs();
+
+        Date date = new Date() ;
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(date);
+
+        final File myFile = new File(folder + timeStamp + ".pdf");
+        try {
+            OutputStream output  = new FileOutputStream(myFile);
+            Document document = new Document(PageSize.A4);
+            try{
+                PdfWriter.getInstance(document, output);
+                document.open();
+                LinearLayout view2 = (LinearLayout)findViewById(R.id.view2);
+
+                view2.setDrawingCacheEnabled(true);
+                Bitmap screen2= getBitmapFromView(view2);
+                ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
+                screen2.compress(Bitmap.CompressFormat.JPEG,100, stream2);
+                byte[] byteArray2 = stream2.toByteArray();
+                addImage(document,byteArray2);
+
+                document.close();
+                AlertDialog.Builder builder =  new AlertDialog.Builder(ProjectActivity.this,R.style.MyDialogTheme);
+                builder.setTitle("Success")
+                        .setMessage("enter code herePDF File Generated Successfully.")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setDataAndType(Uri.fromFile(myFile), "application/pdf");
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                startActivity(intent);
+                            }
+
+                        }).show();
+
+                //document.add(new Paragraph(mBodyEditText.getText().toString()));
+            }catch (DocumentException e)
+            {
+                //loading.dismiss();
+                e.printStackTrace();
+            }
+
+        }catch (FileNotFoundException e)
+        {
+            // loading.dismiss();
+            e.printStackTrace();
+        }
 
 
     }
@@ -206,6 +346,8 @@ public class ProjectActivity extends AppCompatActivity {
         bottomNavigationView=findViewById(R.id.navigationView);
         txtProjectName=findViewById(R.id.projectName);
         recyclerView=findViewById(R.id.recyclerview_projects);
+        btn_createPDF=findViewById(R.id.btnpdf);
+        relativeLayout=findViewById(R.id.relativlayout);
     }
 
     public void SignOut() {
