@@ -186,11 +186,11 @@ public class ProjectActivity extends AppCompatActivity {
 
 
     public void createMultiplePDF() {
-        File filePath = new File(Environment.getExternalStorageDirectory()+File.separator+"Field Survey");
+        File filePath = new File(Environment.getExternalStorageDirectory()+File.separator+"FieldSurvey_");
         filePath.mkdirs();
 
         Date date = new Date() ;
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(date);
+        String timeStamp = new SimpleDateFormat("_yyyyMMdd_HHmmss").format(date);
 
         final File myFile = new File(filePath + projectName +timeStamp + ".pdf");
 
