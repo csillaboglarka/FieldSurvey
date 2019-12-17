@@ -1,21 +1,13 @@
 package com.example.fieldsurvey.DataBase;
 
-
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.example.fieldsurvey.Activities.AddFurnitureActivity;
 import com.example.fieldsurvey.Classes.Furniture;
 import com.example.fieldsurvey.Classes.Plant;
 import com.example.fieldsurvey.Classes.Project;
+import com.example.fieldsurvey.Classes.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,11 +21,11 @@ public class FirebaseDataHelper {
     public static class Instance {
         static FirebaseDatabase database = FirebaseDatabase.getInstance();
         static DatabaseReference surveyReference = database.getReference().child("Survey");
+        static DatabaseReference userReference = database.getReference().child("User");
         static FirebaseAuth mAuth;
 
-        String Uid;
-
-        public static String getCurentUser(){
+        //Returns the current user id from firebase
+        public static String getCurrentUser(){
             mAuth = FirebaseAuth.getInstance();
             FirebaseUser user= mAuth.getCurrentUser();
             if(user != null){
@@ -42,7 +34,8 @@ public class FirebaseDataHelper {
                 return "error";
             }
         }
-
+        //Initialize furniture elements and then finds the project with the name and userId given
+        //Then uploads the Furniture to Firebase
         public static void UploadFurniture(String sType, String sMaterial, final String projectName, final String currentUser, final String photoName,String locationNumb) {
             final Furniture furniture = new Furniture(sType,sMaterial,photoName,locationNumb);
             surveyReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -62,11 +55,13 @@ public class FirebaseDataHelper {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Log.i("DatabaseError","UploadFurniture");
                 }
             });
 
         }
+        //Initialize plant elements and then finds the project with the project name and userId given
+        //Then uploads the Plant to Firebase
 
         public static void UploadPlant(String sSpecies, String sHunName, String sLatinName , final String projectName, final String currentUser, String plantImage,String locationNumber) {
             final Plant plant = new Plant(sSpecies,sHunName,sLatinName,plantImage,locationNumber);
@@ -85,48 +80,43 @@ public class FirebaseDataHelper {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Log.i("DatabaseError","UploadPlant");
                 }
             });
 
         }
+
         public static String  CreateNewProject(Project projectName) {
 
             String key = surveyReference.push().getKey();
             surveyReference.child(key).setValue(projectName);
             return key;
         }
-        public static void ProjectsUpdate(ArrayList<String> q) {
-            projects.addAll(q);
+
+        public static void DeleteProject(final String projectName) {
+            surveyReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for(DataSnapshot item : dataSnapshot.getChildren()) {
+                        if(item.child("projectName").getValue().toString().equals(projectName)) {
+                           String key =item.getKey();
+                          surveyReference.child(key).removeValue();
+                            Log.i("delete",key);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
         }
-public static ArrayList<String> GetQuestionsForSession(final String Uid) {
-
-//    surveyReference.addChildEventListener(new ChildEventListener() {
-//        @Override
-//        public void onChildAdded(@NonNull DataSnapshot dataSnapshot,@Nullable String s) {
-//            Project p =dataSnapshot.getValue(Project.class).getUserId();
-//                if(==Uid ){
-//            }
-//
-//                //if ( dataSnapshot.child("userId").getValue().toString().equals(Uid)) {
-//                    String q = item.child("projectName").getValue().toString();
-//
-//
-//                    projects.add(q);
-//
-//                }
-//                ProjectsUpdate(projects);
-//            }
-//
-//        }
-
-
-
-
-    return projects;
-}
-
+    public static void insertUser(User user){
+           String key= userReference.push().getKey();
+           userReference.child(key).setValue(user);
+    }
 
     }
 }

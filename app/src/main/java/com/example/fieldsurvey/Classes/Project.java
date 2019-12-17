@@ -1,14 +1,14 @@
 package com.example.fieldsurvey.Classes;
 
 
+import java.util.ArrayList;
+
 public class Project {
-    String projectName;
-    String userId;
+  private   String projectName;
+  private String userId;
+  private ArrayList<Item> itemsList;
 
 
-
-    public Project(){
-    }
 
     public Project(String projectName, String userId) {
         this.projectName = projectName;
@@ -20,7 +20,13 @@ public class Project {
 
     }
 
+    public void setItemsList(ArrayList<Item> itemsList) {
+        this.itemsList = itemsList;
+    }
 
+    public ArrayList<Item> getItemsList() {
+        return itemsList;
+    }
 
     public String getProjectName() {
         return projectName;

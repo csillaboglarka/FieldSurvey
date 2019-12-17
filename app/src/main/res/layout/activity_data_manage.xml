@@ -31,10 +31,19 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textSize="25sp"
-            android:backgroundTint="@color/colorPrimary"
+            android:layout_alignParentStart="true"
+            android:textSize="20sp"
             android:text="My projects" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/userName"
+            android:layout_alignEnd="@id/title"
+            android:layout_marginTop="7dp"
+            android:textSize="12sp"
+            android:layout_alignParentEnd="true"
+            />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_projects"
@@ -54,9 +63,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@color/colorGray"
+        app:itemIconTint="@color/colorText"
         app:itemTextColor="@color/colorText"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

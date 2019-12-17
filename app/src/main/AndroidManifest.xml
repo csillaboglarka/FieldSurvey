@@ -16,7 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.SplashActivity"
-            android:theme="@style/AppTheme.SplashScreen"></activity>
+            android:theme="@style/AppTheme.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Activities.ProjectActivity" />
         <activity android:name=".Activities.AddFurnitureActivity" />
         <activity android:name=".Activities.AddPlantActivity" />
@@ -30,6 +35,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

@@ -10,7 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.fieldsurvey.Classes.User;
+import com.example.fieldsurvey.DataBase.FirebaseDataHelper;
 import com.example.fieldsurvey.R;
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -38,7 +42,7 @@ public class Register extends AppCompatActivity {
         et_uPass = findViewById(R.id.UserPassword);
     }
 
-
+//nem maradhat uresen az email es jelszo
     public boolean validateForm() {
         if (TextUtils.isEmpty(et_uEmail.getText().toString())) {
             et_uEmail.setError("Required.");
@@ -52,11 +56,14 @@ public class Register extends AppCompatActivity {
             return true;
         }
     }
+    //uj usert hoz letre a firebase beepitett fugvennyevel ,majd a nevvel es a userid-val az adatbazisba
+    //is beszurja
    public void createAccount(View view) {
 
         if (!validateForm()) {
             return;
         }
+        final String name= et_uName.getText().toString();
         String email = et_uEmail.getText().toString();
         String password = et_uPass.getText().toString();
         //showProgressDialog();
@@ -69,6 +76,8 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this, "Failed", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(Register.this, "Succesful", Toast.LENGTH_SHORT).show();
+                   User user= new User( mAuth.getCurrentUser().getUid(),name);
+                   FirebaseDataHelper.Instance.insertUser(user);
                     intent = new Intent(getApplicationContext(), Profile.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

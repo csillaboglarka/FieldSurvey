@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.fieldsurvey.DataBase.FirebaseDataHelper;
 import com.example.fieldsurvey.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -65,7 +64,7 @@ public class AddPlantActivity extends AppCompatActivity {
 
 
 
-
+        //fenykep keszites
         btn_addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,9 +79,11 @@ public class AddPlantActivity extends AppCompatActivity {
 
 
     }
+    // a kijelentkezes illetve a projektehez valo visszalepes navigacios gombok hozzarendelese
     private void SetMenu() {
         bottomNavigationView.getMenu().removeItem(R.id.navigation_addProject);
         bottomNavigationView.getMenu().removeItem(R.id.navigation_addItem);
+        bottomNavigationView.getMenu().removeItem(R.id.navigation_save);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -101,7 +102,7 @@ public class AddPlantActivity extends AppCompatActivity {
         });
 
     }
-
+    //minden elem initializalasa az xml fajl elemivel
     private void InitializeUI() {
         et_hunName = findViewById(R.id.etHunName);
         et_latinName = findViewById(R.id.etLatinName);
@@ -117,7 +118,8 @@ public class AddPlantActivity extends AppCompatActivity {
         spinnerSpecies.setAdapter(dataAdapter);
     }
 
-
+    //kijelentkezik es vissza dob a bejelentkezes oldalra, a kijelentkezes a beepitett fugvennyel
+    //tortenik
     public void SignOut() {
         final Intent intent = new Intent(AddPlantActivity.this, MainActivity.class);
         AlertDialog.Builder builder = new AlertDialog.Builder(AddPlantActivity.this, R.style.MyDialogTheme);
@@ -141,6 +143,8 @@ public class AddPlantActivity extends AppCompatActivity {
 
     }
 
+    // fenykep keszitese utan a kep eredmenyet bitmap-be lekerjuk
+    //ezt majd megjeleniti majd a kepet byte-okba alakitsa a kep feltolteshez es nevet general
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -160,6 +164,10 @@ public class AddPlantActivity extends AppCompatActivity {
 
         }
     }
+    //az adatlap feltoltese tortenik az osszes mezo kotelezoen kitoltendo
+    //eloszor a kepfeltoltes tortenik meg , utana pedig maga az elemek feltoltes
+    //majd vissza visz az a projekt oldalra (Project activity)
+    //ez akkor valosul meg ha a hozzadas gombra kattintunk
 
     public void  AddTODataBase(View view) {
         Intent intent = new Intent(AddPlantActivity.this,ProjectActivity.class);
@@ -191,6 +199,7 @@ public class AddPlantActivity extends AppCompatActivity {
         }
 
     }
+    //hozzaafererest a kamerahoz, kulso memoria irasa es olvasasahoz ellenorzi
     private boolean check_Permissions(){
 
         boolean GRANTED;
@@ -200,6 +209,7 @@ public class AddPlantActivity extends AppCompatActivity {
                 ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
         return GRANTED;
     }
+    // a mezoket ellenorzi ne legyen semmi uresen hagyva
     private boolean validateForm() {
 
         if(TextUtils.isEmpty(et_hunName.getText().toString())&& TextUtils.isEmpty(et_latinName.getText().toString()) &&

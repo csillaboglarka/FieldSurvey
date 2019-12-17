@@ -37,10 +37,7 @@
     </style>
 
 
-    <style name="MyDialog" parent="@style/Theme.AppCompat.Dialog">
-        <item name="android:textColor">@color/colorText</item>
-        <item name="android:background">@color/colorGray2</item>
-    </style>
+
 
 
 

@@ -12,16 +12,8 @@ public class Plant {
     private String locationNumber;
 
 
-    public Plant(String plantSpecies, String hungarianName, String latinName,String locationNumber){
-        //this.plantId=plantId;
-        this.plantSpecies=plantSpecies;
-        this.hungarianName=hungarianName;
-        this.latinName=latinName;
-        this.locationNumber=locationNumber;
 
-    }
     public Plant(String plantSpecies, String hungarianName, String latinName,String plantImage,String locationNumber){
-        //this.plantId=plantId;
         this.plantSpecies=plantSpecies;
         this.hungarianName=hungarianName;
         this.latinName=latinName;
@@ -30,7 +22,6 @@ public class Plant {
 
     }
     public Plant(String plantSpecies, String hungarianName, String latinName,Bitmap bitmap,String locationNumber){
-        //this.plantId=plantId;
         this.plantSpecies=plantSpecies;
         this.hungarianName=hungarianName;
         this.latinName=latinName;

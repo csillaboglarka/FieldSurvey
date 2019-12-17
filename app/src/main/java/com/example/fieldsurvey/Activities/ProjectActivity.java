@@ -5,39 +5,25 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.DocumentsContract;
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.fieldsurvey.Adapters.itemAdapter;
 import com.example.fieldsurvey.Classes.Furniture;
 import com.example.fieldsurvey.Classes.Item;
@@ -61,20 +47,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-
-import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfWriter;
+
 
 public class ProjectActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -93,13 +78,11 @@ public class ProjectActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     int counter=0;
-    Button btn_createPDF;
     RelativeLayout relativeLayout;
     ProgressDialog pDialog;
     boolean boolean_permission;
     boolean boolean_save;
     public static int REQUEST_PERMISSIONS = 1;
-    ArrayList<String> selectedImagesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +90,7 @@ public class ProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_project);
         Intent i = getIntent();
         projectName=i.getStringExtra("Name");
-        currentUser= FirebaseDataHelper.Instance.getCurentUser();
+        currentUser= FirebaseDataHelper.Instance.getCurrentUser();
         mStorage= FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         InitializeUI();
@@ -116,18 +99,9 @@ public class ProjectActivity extends AppCompatActivity {
         MenuInit();
         GetObjects();
 
-        btn_createPDF.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createMultiPagePDF();
-            }
-        });
-
-
-
     }
 
-
+//dialog amelyik elojon amig keszul a pdf
     private void createMultiPagePDF() {
 
         pDialog = new ProgressDialog(ProjectActivity.this,R.style.MyDialogTheme);
@@ -140,18 +114,13 @@ public class ProjectActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (boolean_save) {
-//                    Intent intent = new Intent(getApplicationContext(), PDFViewActivity.class);
-//                    intent.putExtra("pdfFile", targetPdf);
-//                    startActivity(intent);
-
+//
                 } else {
                     if (boolean_permission) {
                         pDialog = new ProgressDialog(ProjectActivity.this);
                         pDialog.setMessage("Please wait");
                             bitmap = loadBitmapFromView(recyclerView, recyclerView.getWidth(), recyclerView.getHeight());
                         createMultiplePDF();
-                    } else {
-
                     }
                     createMultiplePDF();
                 }
@@ -159,7 +128,7 @@ public class ProjectActivity extends AppCompatActivity {
         }, 4000);
     }
 
-
+//view-bol bitmap-et keszit
     public static Bitmap loadBitmapFromView(View v, int width, int height) {
         Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
@@ -167,7 +136,7 @@ public class ProjectActivity extends AppCompatActivity {
         return b;
     }
 
-
+//a kulso memoria irasahoz ellenorzi a hozzaferest
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -184,7 +153,7 @@ public class ProjectActivity extends AppCompatActivity {
         }
     }
 
-
+//pdf fajl letrehozasa nev,cim, es a recyclerview elemek hozzadasa a dokumentumhoz
     public void createMultiplePDF() {
         File filePath = new File(Environment.getExternalStorageDirectory()+File.separator+"FieldSurvey_");
         filePath.mkdirs();
@@ -207,15 +176,24 @@ public class ProjectActivity extends AppCompatActivity {
 
         document.open();
 
+
         try {
             int i;
+            Font font = new Font(Font.FontFamily.TIMES_ROMAN, 35.0f, Font.BOLD, BaseColor.BLACK);
+            Paragraph Title = new Paragraph(projectName,font);
+            Title.setAlignment(Paragraph.ALIGN_CENTER);
+
+            document.add(Title);
             for(i = 0; i<itemList.size(); ++i) {
-                Drawable myDrawable = null;
-
                 recyclerView.setDrawingCacheEnabled(true);
-
                 Bitmap processedBitmap;
-                processedBitmap = getBitmapFromView(recyclerView.getChildAt(i), i);
+                RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(i);
+
+                if(holder == null){
+                    holder = myAdapter.holderHashMap.get(i);
+                }
+
+                processedBitmap = getBitmapFromView(holder.itemView);
                 Log.i("hsvp", processedBitmap.toString());
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 processedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -238,17 +216,13 @@ public class ProjectActivity extends AppCompatActivity {
 
             pDialog.dismiss();
 
-//            Intent intent = new Intent(getApplicationContext(), PDFViewActivity.class);
-//            intent.putExtra("pdfFile", targetPdf);
-//            startActivity(intent);
-//            finish();
     }
+//bitmap-et keszit a view-ekbol + hatteret feheret rak ha nem volt
+   private Bitmap getBitmapFromView(View view) {
 
-   private Bitmap getBitmapFromView(View view,int index) {
-        RecyclerView hsv = findViewById(R.id.recyclerview_projects);
-        int totalHeight = hsv.getChildAt(index).getHeight();
-        int totalWidth = hsv.getChildAt(index).getWidth();
-        Log.i("hsv",hsv.getChildAt(index).toString());
+
+        int totalHeight = view.getHeight();
+        int totalWidth =   view.getWidth();
         Bitmap returnedBitmap = Bitmap.createBitmap(totalWidth, totalHeight,Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(returnedBitmap);
         Drawable bgDrawable =view.getBackground();
@@ -261,10 +235,10 @@ public class ProjectActivity extends AppCompatActivity {
 
         return returnedBitmap;
     }
-
+//egy projekt osszes objektumait jelenitik meg recyclerview-ba
     private void GetObjects() {
         itemList= new ArrayList<>();
-        final String currentUser=FirebaseDataHelper.Instance.getCurentUser();
+        final String currentUser=FirebaseDataHelper.Instance.getCurrentUser();
         myAdapter = new itemAdapter(itemList);
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -277,8 +251,8 @@ public class ProjectActivity extends AppCompatActivity {
                 itemList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     String user = item.child("userId").getValue().toString();
-                    //itt az volt a gond hogy nem csak projektek voltak a databesben ezert itt errort adott a txt-nel
                     String name = item.child("projectName").getValue().toString();
+                    // user es projektnev talal azon belul keresi az osszes novenyt is es butorokat
                     if (user.equals(currentUser) && name.equals(projectName) ) {
 
                         if(item.child("Items").child("Plants").exists()) {
@@ -360,7 +334,8 @@ public class ProjectActivity extends AppCompatActivity {
         });
 
     }
-
+//menut inicializalja kijelentkezes ,uj noveny/butor hozzadas ,profile-oldalra lepes es a
+// pdf-be valo mentes gomb inicializalasa
     private void MenuInit() {
         bottomNavigationView.getMenu().removeItem(R.id.navigation_addProject);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -377,6 +352,7 @@ public class ProjectActivity extends AppCompatActivity {
                         return true;
                     case R.id.navigation_addItem: addMyItem();
                         return true;
+                    case R.id.navigation_save:  createMultiPagePDF();
                 }
                 return false;
             }
@@ -393,7 +369,6 @@ public class ProjectActivity extends AppCompatActivity {
         bottomNavigationView=findViewById(R.id.navigationView);
         txtProjectName=findViewById(R.id.projectName);
         recyclerView=findViewById(R.id.recyclerview_projects);
-        btn_createPDF=findViewById(R.id.btnpdf);
         relativeLayout=findViewById(R.id.relativlayout);
     }
 
@@ -420,7 +395,8 @@ public class ProjectActivity extends AppCompatActivity {
         builder.show();
 
     }
-
+//megkerdi a hozzadas gomb kattintas utan hogy milyen elemet szeretnenk hozzadni es aszerint
+    //visz minket a megfelelo oldalra
     public void addMyItem(){
 
         final String[] items = {"Plant", "Furniture"};
@@ -451,6 +427,7 @@ public class ProjectActivity extends AppCompatActivity {
         });
         builder.show();
     }
+    //frissiti az adaptert uj elem beszurasa eseten
     private void applyItems(Item item) {
         itemList.add(item);
         myAdapter.notifyDataSetChanged();

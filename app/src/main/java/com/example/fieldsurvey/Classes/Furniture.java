@@ -3,19 +3,13 @@ package com.example.fieldsurvey.Classes;
 import android.graphics.Bitmap;
 
 public class Furniture {
-   // private int furnitureId;
     private String type;
     private String material;
     private String furnitureImage;
     private Bitmap bitmap;
     private String locationNumber;
 
-//    public Furniture(String type, String  material,) {
-//       // this.furnitureId=furnitureId;
-//        this.type=type;
-//        this.material=material;
-//        this.locationNumber=locationNumber;
-//    }
+
 
     public Furniture(String type, String material, String furnitureImage, String locationNumber) {
         this.type = type;
@@ -47,14 +41,6 @@ public class Furniture {
         this.locationNumber=locationNumber;
     }
 
-    /*  public int getFurnitureId() {
-                return furnitureId;
-            }
-
-            public void setFurnitureId(int furnitureId) {
-                this.furnitureId = furnitureId;
-            }
-        */
     public String getType() {
         return type;
     }

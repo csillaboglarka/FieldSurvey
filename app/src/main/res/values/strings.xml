@@ -24,10 +24,14 @@
     <string name="addplantimage">Capture and Upload image</string>
     <string name="your_image">Your image</string>
     <string-array name="Species">
-        <item>cserje</item>
-        <item>fenyo</item>
-        <item>lombhullato</item>
-        <item>virag</item>
+        <item>Fenyő </item>
+        <item>Boróka</item>
+        <item>Luccfenyő</item>
+        <item>Cédrusok</item>
+        <item>Hársfa</item>
+        <item>Liliomfa</item>
+        <item>Juharok</item>
+
     </string-array>
     <string-array name="Type">
         <item>asztal</item>
@@ -47,4 +51,7 @@
     <string name="projectName">Project Name</string>
     <string name="location">Location</string>
     <string name="save">Remember</string>
+    <string name="home">Home</string>
+    <string name="logOuut">Log Out</string>
+    <string name="add">Add</string>
 </resources>

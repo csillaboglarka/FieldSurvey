@@ -5,20 +5,25 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/home"
-        android:title="Home"/>
+        android:title="@string/home"/>
 
     <item
         android:id="@+id/navigation_logout"
         android:icon="@drawable/logout"
-        android:title="LogOut"/>
+        android:title="@string/logOuut"/>
     <item
         android:id="@+id/navigation_addProject"
         android:icon="@drawable/ic_add_circle"
-        android:title="Add project"/>
+        android:title="@string/newProject"/>
     <item
         android:id="@+id/navigation_addItem"
         android:icon="@drawable/ic_add_circle"
-        android:title="Add "/>
+        android:title="@string/add"/>
+    <item
+        android:id="@+id/navigation_save"
+        android:icon="@drawable/save"
+        android:title="Save PDF"
+    />
 
 
 

@@ -1,32 +1,26 @@
 package com.example.fieldsurvey.Adapters;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.fieldsurvey.Classes.Furniture;
 import com.example.fieldsurvey.Classes.Item;
-import com.example.fieldsurvey.Classes.Plant;
-import com.example.fieldsurvey.Classes.Project;
 import com.example.fieldsurvey.R;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class itemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    ArrayList<Item> ItemList;
+    private ArrayList<Item> ItemList;
     private itemAdapter.OnItemClickListener mListener;
     private static int TYPE_FURNITURE = 1;
     private static int TYPE_PLANT = 2;
     private static int TYPE_NOTHING =0;
     private RecyclerView.ViewHolder holder;
-    private int position;
+    public HashMap<Integer, RecyclerView.ViewHolder> holderHashMap = new HashMap<>();
 
     public interface OnItemClickListener {
         void onItemClick(int position);
@@ -59,7 +53,7 @@ public class itemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-
+//itt dol el milyen tipusu lesz az  elem
         if (ItemList.get(position).furniture == null && ItemList.get(position).plant != null) {
             return TYPE_PLANT;
         } else {
@@ -127,7 +121,16 @@ public class itemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             imageView=itemView.findViewById(R.id.imageViewPlant);
             locationNumb=itemView.findViewById(R.id.textViewLocation);
 
+
         }
     }
+    //pdf-hez szukseg volt az view-holderek lementesere
+    @Override
+    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+        holderHashMap.put(holder.getAdapterPosition(),holder);
+        super.onViewDetachedFromWindow(holder);
+    }
+
+
 
 }

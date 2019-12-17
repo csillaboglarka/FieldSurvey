@@ -4,20 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
-
-
 import android.text.TextUtils;
-
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.fieldsurvey.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,19 +40,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_main);
         InitializeUI();
+        mAuth = FirebaseAuth.getInstance();
         CheckPreferences();
 
-        mAuth = FirebaseAuth.getInstance();
+
+    //figyeli hogy be van jelentkezve ,ha igen akkor egybol a Home-ra visz azaz a Profile
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Intent loginIntent=new Intent(MainActivity.this,Profile.class);
+                    loginIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(loginIntent);
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
 
@@ -91,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+//bejelentkezes a firebase beepitett fugvenyevel tortenik az email es jelszoval
+    //elotte megnezi ha bejeloltuk a negyzetet es ha igen lementi az bejelentkezesi adatokat
     public void signIn(View view) {  // Itt ellenorzi hogy megvan a user a firebase-ben es ha megvan csak akkor megy a kovetkezo oldalra
         intent = new Intent(MainActivity.this, Profile.class);
         SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+//a mezok ellenorzese ne maradjon semmi uresen
     private boolean validateForm() {
         if (TextUtils.isEmpty(et_uEmail.getText().toString())) {
             et_uEmail.setError("Required.");
@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     }
+    // amikor a Create one-ra kattintunk a regisztralas oldalra visz minket
     public void goRegister(View view) {
         intent = new Intent(getApplicationContext(), Register.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
+    //ellenorzi ha levoltak mentve a bejelentkezesi adatok, ha igen akkor betolti az adatokat
     public void CheckPreferences() {
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES,
@@ -171,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (sharedpreferences.contains("Email")) {
            et_uEmail.setText(sharedpreferences.getString("Email", null));
+
 
         }
 

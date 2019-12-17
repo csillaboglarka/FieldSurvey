@@ -4,14 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -55,8 +53,9 @@ public class AddFurnitureActivity extends AppCompatActivity {
         currentUser=i.getStringExtra("user");
         mStorage= FirebaseStorage.getInstance().getReference();
         InitializeUI();
+        SetMenu();
 
-
+        //fenykep keszites
         btn_addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +65,13 @@ public class AddFurnitureActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+    // a kijelentkezes illetve a projektehez valo visszalepes navigacios gombok hozzarendelese
+    private void SetMenu() {
+        bottomNavigationView.getMenu().removeItem(R.id.navigation_addProject);
+        bottomNavigationView.getMenu().removeItem(R.id.navigation_addItem);
+        bottomNavigationView.getMenu().removeItem(R.id.navigation_save);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -84,7 +90,7 @@ public class AddFurnitureActivity extends AppCompatActivity {
         });
 
     }
-
+    //minden elem initializalasa az xml fajl elemivel
     private void InitializeUI() {
         spinnerType=findViewById(R.id.spinnerfurntype);
         spinnerMat=findViewById(R.id.spinnerfurnmaterial);
@@ -94,8 +100,6 @@ public class AddFurnitureActivity extends AppCompatActivity {
         tv_imageLabel=findViewById(R.id.imageLabel);
         mAuth = FirebaseAuth.getInstance();
         bottomNavigationView=findViewById(R.id.navigationView);
-        bottomNavigationView.getMenu().removeItem(R.id.navigation_addProject);
-        bottomNavigationView.getMenu().removeItem(R.id.navigation_addItem);
         ArrayAdapter<String> dataAdapterType = new ArrayAdapter<String>(AddFurnitureActivity.this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.Type));
         dataAdapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerType.setAdapter(dataAdapterType);
@@ -103,7 +107,8 @@ public class AddFurnitureActivity extends AppCompatActivity {
         dataAdapterMat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerMat.setAdapter(dataAdapterMat);
     }
-
+    //kijelentkezik es vissza dob a bejelentkezes oldalra, a kijelentkezes a beepitett fugvennyel
+    //tortenik
     public void SignOut() {
         final Intent intent = new Intent(AddFurnitureActivity.this, MainActivity.class);
         AlertDialog.Builder builder = new AlertDialog.Builder(AddFurnitureActivity.this, R.style.MyDialogTheme);
@@ -126,7 +131,8 @@ public class AddFurnitureActivity extends AppCompatActivity {
         builder.show();
 
     }
-
+        // fenykep keszitese utan a kep eredmenyet bitmap-be lekerjuk
+    //ezt majd megjeleniti majd a kepet byte-okba alakitsa a kep feltolteshez es nevet general
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -145,7 +151,10 @@ public class AddFurnitureActivity extends AppCompatActivity {
 
         }
     }
-
+    //az adatlap feltoltese tortenik az osszes mezo kotelezoen kitoltendo
+    //eloszor a kepfeltoltes tortenik meg , utana pedig maga az elemek feltoltes
+    //majd vissza visz az a projekt oldalra (Project activity)
+    //ez akkor valosul meg ha a hozzadas gombra kattintunk
     public void AddToDataBase(View view) {
         Intent intent = new Intent(AddFurnitureActivity.this,ProjectActivity.class);
         if(validateForm()) {
@@ -175,7 +184,7 @@ public class AddFurnitureActivity extends AppCompatActivity {
     }
 
 
-
+//Mezok validalasa
     private boolean validateForm() {
         if (TextUtils.isEmpty(et_locationNumber.getText().toString())) {
             et_locationNumber.setError("Required.");
