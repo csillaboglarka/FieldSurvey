@@ -14,6 +14,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.icu.text.CaseMap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -51,6 +53,7 @@ import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -60,6 +63,8 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import static android.net.Uri.fromFile;
+import static java.lang.Double.SIZE;
 
 public class ProjectActivity extends AppCompatActivity {
     RecyclerView recyclerView;
@@ -101,7 +106,7 @@ public class ProjectActivity extends AppCompatActivity {
 
     }
 
-//dialog amelyik elojon amig keszul a pdf
+    //dialog amelyik elojon amig keszul a pdf
     private void createMultiPagePDF() {
 
         pDialog = new ProgressDialog(ProjectActivity.this,R.style.MyDialogTheme);
@@ -128,7 +133,7 @@ public class ProjectActivity extends AppCompatActivity {
         }, 4000);
     }
 
-//view-bol bitmap-et keszit
+    //view-bol bitmap-et keszit
     public static Bitmap loadBitmapFromView(View v, int width, int height) {
         Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
@@ -136,7 +141,8 @@ public class ProjectActivity extends AppCompatActivity {
         return b;
     }
 
-//a kulso memoria irasahoz ellenorzi a hozzaferest
+
+    //a kulso memoria irasahoz ellenorzi a hozzaferest
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -153,7 +159,7 @@ public class ProjectActivity extends AppCompatActivity {
         }
     }
 
-//pdf fajl letrehozasa nev,cim, es a recyclerview elemek hozzadasa a dokumentumhoz
+    //pdf fajl letrehozasa nev,cim, es a recyclerview elemek hozzadasa a dokumentumhoz
     public void createMultiplePDF() {
         File filePath = new File(Environment.getExternalStorageDirectory()+File.separator+"FieldSurvey_");
         filePath.mkdirs();
@@ -217,7 +223,8 @@ public class ProjectActivity extends AppCompatActivity {
             pDialog.dismiss();
 
     }
-//bitmap-et keszit a view-ekbol + hatteret feheret rak ha nem volt
+
+    //bitmap-et keszit a view-ekbol + hatteret feheret rak ha nem volt
    private Bitmap getBitmapFromView(View view) {
 
 
@@ -235,7 +242,7 @@ public class ProjectActivity extends AppCompatActivity {
 
         return returnedBitmap;
     }
-//egy projekt osszes objektumait jelenitik meg recyclerview-ba
+    //egy projekt osszes objektumait jelenitik meg recyclerview-ba
     private void GetObjects() {
         itemList= new ArrayList<>();
         final String currentUser=FirebaseDataHelper.Instance.getCurrentUser();
@@ -251,8 +258,8 @@ public class ProjectActivity extends AppCompatActivity {
                 itemList.clear();
                 for (DataSnapshot item : dataSnapshot.getChildren()) {
                     String user = item.child("userId").getValue().toString();
+                    //itt az volt a gond hogy nem csak projektek voltak a databesben ezert itt errort adott a txt-nel
                     String name = item.child("projectName").getValue().toString();
-                    // user es projektnev talal azon belul keresi az osszes novenyt is es butorokat
                     if (user.equals(currentUser) && name.equals(projectName) ) {
 
                         if(item.child("Items").child("Plants").exists()) {
@@ -334,7 +341,7 @@ public class ProjectActivity extends AppCompatActivity {
         });
 
     }
-//menut inicializalja kijelentkezes ,uj noveny/butor hozzadas ,profile-oldalra lepes es a
+    //menut inicializalja kijelentkezes ,uj noveny/butor hozzadas ,profile-oldalra lepes es a
 // pdf-be valo mentes gomb inicializalasa
     private void MenuInit() {
         bottomNavigationView.getMenu().removeItem(R.id.navigation_addProject);
@@ -395,8 +402,7 @@ public class ProjectActivity extends AppCompatActivity {
         builder.show();
 
     }
-//megkerdi a hozzadas gomb kattintas utan hogy milyen elemet szeretnenk hozzadni es aszerint
-    //visz minket a megfelelo oldalra
+    //megkerdi a hozzadas gomb kattintas utan hogy milyen elemet szeretnenk hozzadni es aszerint
     public void addMyItem(){
 
         final String[] items = {"Plant", "Furniture"};
@@ -427,7 +433,6 @@ public class ProjectActivity extends AppCompatActivity {
         });
         builder.show();
     }
-    //frissiti az adaptert uj elem beszurasa eseten
     private void applyItems(Item item) {
         itemList.add(item);
         myAdapter.notifyDataSetChanged();
